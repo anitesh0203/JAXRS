@@ -1,0 +1,42 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from SiteHelperService WSDL service -->
+
+  <service name="SiteHelper" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://ws.com"/>
+      <parameter name="wsdlServiceElement" value="SiteHelperService"/>
+      <parameter name="schemaQualified" value="http://ws.com"/>
+      <parameter name="wsdlServicePort" value="SiteHelper"/>
+      <parameter name="className" value="com.ws.SiteHelperSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="SiteHelper"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="returnData" qname="operNS:returnData" xmlns:operNS="http://ws.com" returnQName="retNS:returnDataReturn" xmlns:retNS="http://ws.com" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:product" xmlns:pns="http://ws.com" type="tns:Product" xmlns:tns="http://ws.com"/>
+        <parameter qname="pns:input" xmlns:pns="http://ws.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="exceptionHandler" qname="operNS:exceptionHandler" xmlns:operNS="http://ws.com" returnQName="retNS:exceptionHandlerReturn" xmlns:retNS="http://ws.com" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:error" xmlns:pns="http://ws.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:reason" xmlns:pns="http://ws.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="returnData exceptionHandler"/>
+
+      <typeMapping
+        xmlns:ns="http://ws.com"
+        qname="ns:Product"
+        type="java:com.ws.Product"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

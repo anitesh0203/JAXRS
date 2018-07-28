@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from MobilePhoneImplemeService WSDL service -->
+
+  <service name="MobilePhoneImpleme" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://mobile.com"/>
+      <parameter name="wsdlServiceElement" value="MobilePhoneImplemeService"/>
+      <parameter name="schemaQualified" value="http://mobile.com"/>
+      <parameter name="wsdlServicePort" value="MobilePhoneImpleme"/>
+      <parameter name="className" value="com.mobile.MobilePhoneImpleme"/>
+      <parameter name="wsdlPortType" value="MobilePhoneImpleme"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://mobile.com" name="result" qname="operNS:result" soapAction="">
+        <parameter xmlns:pns="http://mobile.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:number" type="tns:int"/>
+        <parameter xmlns:pns="http://mobile.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:mobileData" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://mobile.com" name="exceptionHandler" qname="operNS:exceptionHandler" soapAction="">
+        <parameter xmlns:pns="http://mobile.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:trace" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="result exceptionHandler"/>
+
+  </service>
+</deployment>
